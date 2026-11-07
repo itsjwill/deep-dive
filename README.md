@@ -5,13 +5,13 @@
 <div align="center">
 
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
-![Version](https://img.shields.io/badge/version-1.1.0-blue?style=for-the-badge)
+![Version](https://img.shields.io/badge/version-1.2.0-blue?style=for-the-badge)
 ![Claude Code](https://img.shields.io/badge/Claude_Code-Plugin_+_Skill-purple?style=for-the-badge)
 ![Powered by RECON](https://img.shields.io/badge/Powered_by-RECON-black?style=for-the-badge)
 
 </div>
 
-> Say "deep dive on X" in Claude Code. It finds the best YouTube videos, academic papers and podcasts, scores each one for substance and credibility, forces in a contrarian source, loads them into a NotebookLM notebook, interrogates it, **checks that the key citations actually say what it claims**, and hands you a verdict with a plan.
+> Say "deep dive on X" in Claude Code. It finds the best YouTube videos, academic papers, podcasts and X threads, scores each one for substance and credibility, forces in a contrarian source, loads them into a NotebookLM notebook, interrogates it, **checks that the key citations actually say what it claims**, and hands you a verdict with a plan.
 
 ```
 /plugin install deep-dive --marketplace itsjwill/deep-dive
@@ -28,8 +28,8 @@ DEEP DIVE reads the sources practitioners actually learn from (long-form transcr
 ## How it works
 
 ```
-1. ROUTE        pick sources by topic: tech = video + web + GitHub, science = papers, trading = expert mode + podcasts
-2. SEARCH       YouTube + OpenAlex papers (474M+) + podcasts
+1. ROUTE        pick sources by topic: tech = video + X + web + GitHub, science = papers, trading = expert mode + podcasts
+2. SEARCH       YouTube + OpenAlex papers (474M+) + podcasts + X (free, no account)
 3. SCORE        substance, credibility, transcript depth (expert mode favors practitioners over influencers)
 4. CONTRARIAN   one slot always goes to "problems / risks / criticism"
 5. NOTEBOOK     every source loaded into a queryable NotebookLM notebook
@@ -60,6 +60,7 @@ No RECON or NotebookLM? The skill still runs: parallel web searches (topic, prac
 |---|---|---|---|---|
 | Price | Free | $20/mo | $20-200/mo | $12+/mo |
 | Video transcripts | Yes | No | No | No |
+| X/Twitter practitioner threads | Yes (free) | Partial | No | No |
 | Academic papers | Yes | Partial | Partial | Yes |
 | Forced contrarian source | Yes | No | No | No |
 | Verifies its own citations | Yes | No | No | Partial |
@@ -120,6 +121,7 @@ skills/deep-dive/
 
 ## Changelog
 
+- **1.2.0**: X/Twitter search (free via web search, no account or API key), routed to tech, AI, trading and business topics; X-specific gotchas; Reddit status documented.
 - **1.1.0**: citation verification step, lite mode (no setup), source routing by topic, parallel angle agents for ultra think, gotchas section, plugin + marketplace packaging, skills.sh support.
 - **1.0.0**: initial release.
 

@@ -1,7 +1,7 @@
 ---
 name: deep-dive
-version: 1.1.0
-description: Run a real deep dive on any topic. Uses the RECON research engine to find and score the best YouTube videos, academic papers and podcasts (plus a forced contrarian source), loads them into a NotebookLM notebook, interrogates it, verifies the key citations, then delivers an opinionated, cited verdict with a plan. Works without RECON in lite mode (web search + direct reading). Trigger on "deep dive", "deep dive on X", "research X", "ultra think", "think the impossible", "/deep-dive", or any request to go deep on a topic before deciding or building.
+version: 1.2.0
+description: Run a real deep dive on any topic. Uses the RECON research engine to find and score the best YouTube videos, academic papers, podcasts and X/Twitter threads (plus a forced contrarian source), loads them into a NotebookLM notebook, interrogates it, verifies the key citations, then delivers an opinionated, cited verdict with a plan. Works without RECON in lite mode (web search + direct reading). Trigger on "deep dive", "deep dive on X", "research X", "ultra think", "think the impossible", "/deep-dive", or any request to go deep on a topic before deciding or building.
 ---
 
 # Deep Dive
@@ -34,10 +34,12 @@ When a trigger phrase appears, the FIRST action is research. No text first. No c
 
 | Topic type | sources | Add in parallel |
 |---|---|---|
-| Tech, tools, AI, software, marketing tactics | `["youtube"]` | Web search + GitHub search (recency matters) |
+| Tech, tools, AI, software, marketing tactics | `["youtube"]` | X search + web search + GitHub search (recency matters) |
 | Science, health, psychology, economics | `["youtube", "papers"]` | |
-| Trading, investing, niche craft | `["youtube", "podcasts"]` with `mode="expert"` | |
-| Business strategy, general learning | `["youtube", "papers", "podcasts"]` | |
+| Trading, investing, niche craft | `["youtube", "podcasts"]` with `mode="expert"` | X search |
+| Business strategy, general learning | `["youtube", "papers", "podcasts"]` | X search for founder/operator takes |
+
+**X search (free, no account):** web search with `allowed_domains: ["x.com"]`. Run two queries: the topic, and "<topic> doesn't work / overrated / mistakes". Results are threads, X articles and posts from people building the thing, often weeks ahead of YouTube. Skip X for science and health (mostly noise there).
 
 **Mode:** `mode="expert"` for trading, bots, strategies or any niche where practitioners beat influencers (inverts popularity scoring). `mode="general"` otherwise.
 
@@ -57,7 +59,7 @@ Takes 1-4 minutes: searches, scores each source for substance, credibility and t
 | Login / "signed out" / "New notebook" error | Run `notebooklm_login()`. If signed out, tell the user in ONE line to run `notebooklm_login(interactive=true)`, then lite mode. Never use notebooklm-mcp `setup_auth` (does not detect notebook.google.com) |
 | No sources | Retry once with a broader topic string, then lite mode |
 
-**Lite mode** (no notebook): in parallel, run `search_videos` / `search_papers` if RECON is connected, plus 3-5 web searches: the topic, "<topic> best practices / how practitioners do it", "<topic> problems / criticism / doesn't work", and "<topic> data / benchmark / results". Fetch and read the top 5-8 pages or transcripts directly. Keep at least one contrarian source. Then Steps 5-7 exactly as normal.
+**Lite mode** (no notebook): in parallel, run `search_videos` / `search_papers` if RECON is connected, plus 3-5 web searches (and the 2 X searches when the topic routes to X): the topic, "<topic> best practices / how practitioners do it", "<topic> problems / criticism / doesn't work", and "<topic> data / benchmark / results". Fetch and read the top 5-8 pages or transcripts directly. Keep at least one contrarian source. Then Steps 5-7 exactly as normal.
 
 ## Step 4: Interrogate
 
@@ -78,7 +80,7 @@ Vague answer = one follow-up that names the exact thing you need.
 ### 4b. Parallel angle agents (ultra think / think the impossible)
 
 Spawn 3 subagents at once, each with a narrow brief and its own searches:
-- **Practitioner:** what people with real results do, with numbers.
+- **Practitioner:** what people with real results do, with numbers. Owns the X searches.
 - **Evidence:** studies, benchmarks, data, official docs.
 - **Contrarian:** failures, criticism, who says this does not work and why.
 
@@ -139,4 +141,6 @@ Flag hype with no evidence. If the evidence is thin, say the confidence is low. 
 - **"Profile is open in another process"** = a notebooklm-mcp query holds the Chrome profile. Wait a minute and retry.
 - **Papers off-topic** (e.g. finance papers for a coding question): OpenAlex is weak on new tooling. Drop papers, use web + GitHub.
 - **More tool calls does not mean more accuracy.** Fact-check accuracy drops as research sprawls. Five well-read sources beat thirty skimmed ones.
+- **X posts are leads, not proof.** Engagement bait and confident wrong takes are common. Cite a post only when it shows real numbers or comes from someone who did the thing (builder, team member, operator); otherwise confirm it elsewhere.
+- **Reddit is unreachable for free.** Reddit blocks Claude's web search, closed self-service API keys (Nov 2025) and returns 403 to scripts. Do not try to get around that. If the Claude in Chrome extension is connected and the user wants Reddit, open reddit.com search in a new tab and read the top 2-3 threads like a person would.
 - **One contrarian source is not balance.** On debatable topics, actively state the strongest opposing case.
