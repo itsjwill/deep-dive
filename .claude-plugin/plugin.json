@@ -1,0 +1,13 @@
+{
+  "name": "deep-dive",
+  "version": "1.1.0",
+  "description": "Say 'deep dive on X' and get a verified, cited research verdict from scored YouTube videos, papers and podcasts loaded into NotebookLM. Forced contrarian source, citation check, lite mode without setup. Powered by RECON.",
+  "author": {
+    "name": "itsjwill",
+    "url": "https://github.com/itsjwill"
+  },
+  "homepage": "https://github.com/itsjwill/deep-dive",
+  "repository": "https://github.com/itsjwill/deep-dive",
+  "license": "MIT",
+  "keywords": ["research", "deep-research", "notebooklm", "youtube", "papers", "citations", "recon"]
+}

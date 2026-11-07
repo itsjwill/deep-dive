@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "deep-dive",
+  "description": "Deep research skill for Claude Code, powered by RECON.",
+  "owner": {
+    "name": "itsjwill",
+    "url": "https://github.com/itsjwill"
+  },
+  "plugins": [
+    {
+      "name": "deep-dive",
+      "description": "Verified, cited research verdicts from scored videos, papers and podcasts. Forced contrarian source.",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}
